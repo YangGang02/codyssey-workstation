@@ -1,0 +1,36 @@
+GitHub 연결 및 업로드 검증
+VSCode 내장 터미널 캡처 23번에서 명령과 출력의 핵심 부분을 발췌했습니다.
+객체 전송 진행률은 생략했습니다.
+
+$ pwd
+/Users/mingiyomi/Documents/codyssey-workstation
+
+$ git remote add origin https://github.com/didthq100-arch/codyssey-workstation.git
+
+$ git remote -v
+origin	https://github.com/didthq100-arch/codyssey-workstation.git (fetch)
+origin	https://github.com/didthq100-arch/codyssey-workstation.git (push)
+
+$ git push -u origin main
+To https://github.com/didthq100-arch/codyssey-workstation.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
+
+$ git push -u origin main
+branch 'main' set up to track 'origin/main'.
+Everything up-to-date
+
+아래는 문서 정리 시 로컬 저장소에서 별도로 조회한 결과입니다.
+
+$ git status --short --branch
+## main...origin/main
+
+$ git log -2 --oneline
+7a03f89 실습 문서와 검증 증거 추가
+9932f75 터미널 실습과 Docker 웹 서버 추가
+
+$ git rev-parse HEAD
+7a03f89d865878737c3bf598040fa88c96a2ae3a
+
+$ git rev-parse origin/main
+7a03f89d865878737c3bf598040fa88c96a2ae3a
