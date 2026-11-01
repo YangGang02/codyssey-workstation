@@ -1,0 +1,142 @@
+Script started on Sun Nov  1 16:40:17 2026
+[1m[7m%[27m[1m[0m                                                                                                    ]7;file://yangmingiui-MacBookAir.local/Users/mingiyomi/Documents/codyssey-workstation[0m[27m[24m[Jmingiyomi@yangmingiui-MacBookAir codyssey-workstation % [K[?2004h[7msw_vers[27m[27ms[27mw[27m_[27mv[27me[27mr[27ms[?2004l
+ProductName:		macOS
+ProductVersion:		26.6.2
+BuildVersion:		25G83
+[1m[7m%[27m[1m[0m                                                                                                    ]7;file://yangmingiui-MacBookAir.local/Users/mingiyomi/Documents/codyssey-workstation[0m[27m[24m[Jmingiyomi@yangmingiui-MacBookAir codyssey-workstation % [K[?2004h[7muname -m[27m[8D[27mu[27mn[27ma[27mm[27me[27m [27m-[27mm[?2004l
+arm64
+[1m[7m%[27m[1m[0m                                                                                                    ]7;file://yangmingiui-MacBookAir.local/Users/mingiyomi/Documents/codyssey-workstation[0m[27m[24m[Jmingiyomi@yangmingiui-MacBookAir codyssey-workstation % [K[?2004h[7mecho "$SHELL"[27m[13D[27me[27mc[27mh[27mo[27m [27m"[27m$[27mS[27mH[27mE[27mL[27mL[27m"[?2004l
+/bin/zsh
+[1m[7m%[27m[1m[0m                                                                                                    ]7;file://yangmingiui-MacBookAir.local/Users/mingiyomi/Documents/codyssey-workstation[0m[27m[24m[Jmingiyomi@yangmingiui-MacBookAir codyssey-workstation % [K[?2004h[7mecho "$TERM_PROGRAM"[27m[20D[27me[27mc[27mh[27mo[27m [27m"[27m$[27mT[27mE[27mR[27mM[27m_[27mP[27mR[27mO[27mG[27mR[27mA[27mM[27m"[?2004l
+Apple_Terminal
+[1m[7m%[27m[1m[0m                                                                                                    ]7;file://yangmingiui-MacBookAir.local/Users/mingiyomi/Documents/codyssey-workstation[0m[27m[24m[Jmingiyomi@yangmingiui-MacBookAir codyssey-workstation % [K[?2004h[7mgit --version[27m[13D[27mg[27mi[27mt[27m [27m-[27m-[27mv[27me[27mr[27ms[27mi[27mo[27mn[?2004l
+git version 2.39.5 (Apple Git-154)
+[1m[7m%[27m[1m[0m                                                                                                    ]7;file://yangmingiui-MacBookAir.local/Users/mingiyomi/Documents/codyssey-workstation[0m[27m[24m[Jmingiyomi@yangmingiui-MacBookAir codyssey-workstation % [K[?2004h[7mdocker --version[27m[16D[27md[27mo[27mc[27mk[27me[27mr[27m [27m-[27m-[27mv[27me[27mr[27ms[27mi[27mo[27mn[?2004l
+Docker version 29.9.2, build a82e528
+[1m[7m%[27m[1m[0m                                                                                                    ]7;file://yangmingiui-MacBookAir.local/Users/mingiyomi/Documents/codyssey-workstation[0m[27m[24m[Jmingiyomi@yangmingiui-MacBookAir codyssey-workstation % [K[?2004h[7mdocker info[27m[11D[27md[27mo[27mc[27mk[27me[27mr[27m [27mi[27mn[27mf[27mo[?2004l
+Client:
+ Version:    29.9.2
+ Context:    desktop-linux
+ Debug Mode: false
+ Plugins:
+  agent: Docker AI Agent Runner (Docker Inc.)
+    Version:  v1.152.0
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-agent
+  ai: Docker AI Agent - Ask Gordon (Docker Inc.)
+    Version:  v1.33.0
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-ai
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.38.1
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v5.6.1
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-compose
+  debug: Get a shell into any image or container (Docker Inc.)
+    Version:  0.49.0
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-debug
+  desktop: Docker Desktop commands (Docker Inc.)
+    Version:  4.97.0
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-desktop
+  dhi: CLI for managing Docker Hardened Images (Docker Inc.)
+    Version:  v0.0.9
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-dhi
+  extension: Manages Docker extensions (Docker Inc.)
+    Version:  v0.2.32
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-extension
+  init: Creates Docker-related starter files for your project (Docker Inc.)
+    Version:  v1.4.1
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-init
+  mcp: Docker MCP Plugin (Docker Inc.)
+    Version:  v0.44.2
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-mcp
+  model: Docker Model Runner (Docker Inc.)
+    Version:  v1.2.9
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-model
+  offload: Docker Offload (Docker Inc.)
+    Version:  v0.7.21
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-offload
+  pass: Docker Pass Secrets Manager Plugin (beta) (Docker Inc.)
+    Version:  v0.3.2
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-pass
+  sandbox: "docker sandbox" is deprecated, use Docker Sandboxes instead (Docker Inc.)
+    Version:  v0.13.0
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-sandbox
+  scout: Docker Scout (Docker Inc.)
+    Version:  v1.27.0
+    Path:     /Users/mingiyomi/.docker/cli-plugins/docker-scout
+
+Server:
+ Containers: 5
+  Running: 3
+  Paused: 0
+  Stopped: 2
+ Images: 3
+ Server Version: 29.9.2
+ Storage Driver: overlayfs
+  driver-type: io.containerd.snapshotter.v1
+ Logging Driver: local
+ Cgroup Driver: cgroupfs
+ Cgroup Version: 2
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+ CDI spec directories:
+  /etc/cdi
+  /var/run/cdi
+ Discovered Devices:
+  cdi: docker.com/gpu=webgpu
+ Swarm: inactive
+ Runtimes: runc io.containerd.runc.v2
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: b7a25261e029d68978bbf290df0a62fc819b3c51
+ runc version: v1.5.2-0-g29dd3dc2
+ init version: de40ad0
+ Security Options:
+  seccomp
+   Profile: builtin
+  cgroupns
+ Kernel Version: 7.0.14-linuxkit
+ Operating System: Docker Desktop
+ OSType: linux
+ Architecture: aarch64
+ CPUs: 8
+ Total Memory: 7.748GiB
+ Name: docker-desktop
+ ID: 1f17a161-8a4d-43cf-b26e-de7af697cff1
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ HTTP Proxy: http.docker.internal:3128
+ HTTPS Proxy: http.docker.internal:3128
+ No Proxy: hubproxy.docker.internal
+ Labels:
+  com.docker.desktop.address=unix:///Users/mingiyomi/Library/Containers/com.docker.docker/Data/docker-cli.sock
+ Experimental: false
+ Insecure Registries:
+  hubproxy.docker.internal:5555
+  127.0.0.0/8
+  ::1/128
+ Live Restore Enabled: false
+ Firewall Backend: iptables
+
+[1m[7m%[27m[1m[0m                                                                                                    ]7;file://yangmingiui-MacBookAir.local/Users/mingiyomi/Documents/codyssey-workstation[0m[27m[24m[Jmingiyomi@yangmingiui-MacBookAir codyssey-workstation % [K[?2004h[7mgit config --local --list[27m[25D[27mg[27mi[27mt[27m [27mc[27mo[27mn[27mf[27mi[27mg[27m [27m-[27m-[27ml[27mo[27mc[27ma[27ml[27m [27m-[27m-[27ml[27mi[27ms[27mt[?2004l
+[?1h=core.repositoryformatversion=0[m
+core.filemode=true[m
+core.bare=false[m
+core.logallrefupdates=true[m
+core.ignorecase=true[m
+core.precomposeunicode=true[m
+user.name=양민기[m
+user.email=didthq100@gmail.com[m
+[K[?1l>[1m[7m%[27m[1m[0m                                                                                                    ]7;file://yangmingiui-MacBookAir.local/Users/mingiyomi/Documents/codyssey-workstation[0m[27m[24m[Jmingiyomi@yangmingiui-MacBookAir codyssey-workstation % [K[?2004h[7mgit config --global --get init.defaultBranch[27m [K[A[56C[27mg[27mi[27mt[27m [27mc[27mo[27mn[27mf[27mi[27mg[27m [27m-[27m-[27mg[27ml[27mo[27mb[27ma[27ml[27m [27m-[27m-[27mg[27me[27mt[27m [27mi[27mn[27mi[27mt[27m.[27md[27me[27mf[27ma[27mu[27ml[27mt[27mB[27mr[27ma[27mn[27mc[27mh [K[?2004l
+main
+[1m[7m%[27m[1m[0m                                                                                                    ]7;file://yangmingiui-MacBookAir.local/Users/mingiyomi/Documents/codyssey-workstation[0m[27m[24m[Jmingiyomi@yangmingiui-MacBookAir codyssey-workstation % [K[?2004h[7mexit[27m[27me[27mx[27mi[27mt[?2004l
+
+Saving session...
+...copying shared history...
+...saving history...truncating history files...
+...completed.
+Deleting expired sessions...       3 completed.
+
+Script done on Sun Nov  1 16:41:00 2026
