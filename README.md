@@ -27,6 +27,24 @@
 - [x] 볼륨의 컨테이너 삭제 전후 데이터 유지
 - [x] Git 설정 및 GitHub·VSCode 연동
 
+### 폴더 구성
+
+~~~text
+codyssey-workstation/
+├── Dockerfile          # 웹 서버 이미지 빌드 설정
+├── README.md           # 수행 내용과 검증 결과
+├── .gitignore          # Git에서 제외할 파일 설정
+├── practice/
+│   └── memo.txt        # 파일 조작·권한 연습
+├── site/
+│   └── index.html      # 웹 서버에서 보여줄 페이지
+└── docs/
+    ├── images/         # 실습 화면 캡처
+    └── logs/           # 명령어와 출력 기록
+~~~
+
+웹 페이지는 site, 연습 파일은 practice, 증빙 자료는 docs에 모았다.
+
 ## 3. 터미널 기본 조작
 
 ~~~text
@@ -84,6 +102,8 @@ drwxr-xr-x 3 mingiyomi staff 96 11월 1 14:56 practice
 ## 5. Docker 설치·운영과 Ubuntu
 
 Docker Desktop을 설치하고 켜둔 상태에서 명령어를 실행했다.
+
+이미지는 프로그램과 파일이 담긴 읽기 전용 실행 틀이고, 컨테이너는 그 이미지로 만든 실행 환경이다. docker build는 이미지를 만들고 docker run은 컨테이너를 생성해 실행한다. 컨테이너 안에서 파일을 바꿔도 원본 이미지는 바뀌지 않는다. 컨테이너는 중지 후 다시 시작할 수 있지만, 삭제하면 그 컨테이너의 쓰기 계층도 사라진다. 볼륨이나 바인드 마운트에 저장한 데이터는 별도로 남는다. ([Docker 이미지 설명](https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-an-image/))
 
 ~~~text
 $ docker --version                         # Docker 버전 확인
@@ -185,6 +205,8 @@ Content-Type: text/html
 ~~~
 
 이미지 빌드와 컨테이너 실행이 완료됐고 200 OK 응답이 나왔다. 8080:80은 맥의 8080번 포트를 컨테이너의 80번 포트에 연결한다.
+
+이 실습의 기본 bridge 네트워크에서는 컨테이너마다 네트워크 네임스페이스가 분리되어 IP·포트 공간을 따로 사용한다. 그래서 컨테이너 안의 localhost:80과 맥의 localhost:80은 다르다. 네임스페이스가 네트워크 공간을 나누는 기능이라면, -p 8080:80은 나뉜 공간 사이에 접속 경로를 만드는 포트 매핑이다. 맥에서는 Docker Desktop이 맥의 8080번으로 받은 요청을 Linux 가상 머신 안의 컨테이너 80번으로 전달한다. ([Docker 네트워크 설명](https://docs.docker.com/engine/network/), [Docker Desktop 포트 연결](https://docs.docker.com/desktop/features/networking/#how-exposed-ports-work))
 
 [Dockerfile](Dockerfile) · [HTML 소스](site/index.html) · [빌드 결과](docs/images/18-web-source-and-build.png) · [실행·포트·응답 결과](docs/images/06-web-run-and-curl.png)
 
@@ -294,5 +316,47 @@ Git으로 내 컴퓨터에 변경 이력을 저장하고, VSCode 터미널에서
 Docker Desktop을 켜고 내려받은 저장소 폴더에서 6~8절의 명령을 실행한다. 같은 컨테이너 이름이나 포트가 있으면 바꾸고, 개인 PC 경로는 자신의 저장소 경로로 바꾼다.
 
 바인드 마운트는 이미지를 빌드한 다음 HTML 문장을 수정해서 비교한다.
+
+### 포트가 이미 사용 중일 때
+
+다음은 충돌이 생겼을 때 사용할 확인·해제 절차다.
+
+1. lsof로 맥의 8080번 포트를 사용하는 프로그램과 PID를 확인한다. docker ps에서는 컨테이너 이름과 포트 매핑을 확인한다.
+
+~~~bash
+lsof -nP -iTCP:8080 -sTCP:LISTEN
+docker ps --format 'table {{.Names}}\t{{.Ports}}'
+~~~
+
+2. 점유한 것이 내 실습 컨테이너 codyssey-web이라면 아래처럼 중지한다. 다른 프로그램이라면 해당 앱에서 서버를 정상 종료한다. Docker Desktop 프로세스로 표시되면 Docker Desktop 자체를 종료하기보다 해당 컨테이너를 찾는다.
+
+~~~bash
+docker stop codyssey-web
+lsof -nP -iTCP:8080 -sTCP:LISTEN
+~~~
+
+3. 다시 조회했을 때 점유 프로세스가 없으면 포트가 해제된 것이다. 다른 프로그램을 계속 써야 한다면 새 컨테이너는 -p 8082:80처럼 빈 호스트 포트로 실행한다.
+
+### 데이터 백업
+
+다음은 필요할 때 사용할 백업 절차다. 파일을 쓰는 프로그램은 먼저 중지하고 백업한다.
+
+~~~bash
+# 과제 저장소 폴더에서 실행: 맥의 site 폴더 백업
+mkdir -p "$HOME/Documents/codyssey-backup"
+tar -czf "$HOME/Documents/codyssey-backup/site.tar.gz" site
+
+# codyssey-data 볼륨이 있는지 먼저 확인한 뒤 백업
+docker volume inspect codyssey-data
+docker run --rm -v codyssey-data:/data:ro \
+  -v "$HOME/Documents/codyssey-backup:/backup" \
+  ubuntu:24.04 tar -czf /backup/codyssey-data.tar.gz -C /data .
+
+# 압축 파일의 목록을 읽어 백업 내용 확인
+tar -tzf "$HOME/Documents/codyssey-backup/site.tar.gz"
+tar -tzf "$HOME/Documents/codyssey-backup/codyssey-data.tar.gz"
+~~~
+
+볼륨은 읽기 전용으로 연결하고, 압축 파일은 저장소 밖의 codyssey-backup 폴더에 보관한다. 중요한 백업은 외장 저장 장치 등에도 복사한다. ([Docker 볼륨 백업 안내](https://docs.docker.com/engine/storage/volumes/#back-up-restore-or-migrate-data-volumes))
 
 [전체 캡처 폴더](docs/images/)
