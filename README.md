@@ -4,7 +4,7 @@
 
 이번 과제에서는 터미널로 파일과 폴더를 다루고 Docker로 웹 서버를 실행했다. 바인드 마운트와 볼륨 동작을 확인하고, 작업 파일과 수행 기록을 GitHub에 올렸다.
 
-아래에는 사용한 명령어와 기능을 적었다. 실제 실행 로그는 각 항목의 캡처에서 확인할 수 있다.
+아래에는 사용한 명령어와 캡처에 나온 핵심 출력을 적었다. 긴 출력은 일부만 옮겼다. 실제 로그는 각 항목의 캡처에서 확인할 수 있다.
 
 ## 1. 실행 환경
 
@@ -29,18 +29,27 @@
 
 ## 3. 터미널 기본 조작
 
-~~~bash
-pwd                                         # 현재 위치 확인
-ls -la                                      # 숨김 파일을 포함한 목록 확인
-mkdir -p ~/Documents/codyssey-workstation    # 과제 폴더 생성
-cd ~/Documents/codyssey-workstation          # 폴더 이동
-mkdir practice                              # 연습 폴더 생성
-touch practice/memo.txt                     # 빈 파일 생성
-echo "My first Codyssey mission" > practice/memo.txt  # 내용 저장
-cat practice/memo.txt                       # 파일 내용 확인
-cp practice/memo.txt practice/memo-copy.txt  # 파일 복사
-mv practice/memo-copy.txt practice/memo-backup.txt    # 이름 변경
-rm practice/memo-backup.txt                  # 파일 삭제
+~~~text
+$ pwd                                       # 현재 위치 확인
+/Users/mingiyomi
+$ ls -la                                      # 숨김 파일을 포함한 목록 확인
+$ mkdir -p ~/Documents/codyssey-workstation    # 과제 폴더 생성
+$ cd ~/Documents/codyssey-workstation          # 폴더 이동
+$ pwd
+/Users/mingiyomi/Documents/codyssey-workstation
+$ mkdir practice                              # 연습 폴더 생성
+$ touch practice/memo.txt                     # 빈 파일 생성
+$ echo "My first Codyssey mission" > practice/memo.txt  # 내용 저장
+$ cat practice/memo.txt                       # 파일 내용 확인
+My first Codyssey mission
+$ cp practice/memo.txt practice/memo-copy.txt  # 파일 복사
+$ mv practice/memo-copy.txt practice/memo-backup.txt    # 이름 변경
+$ rm practice/memo-backup.txt                  # 파일 삭제
+$ ls -la practice
+total 8
+drwxr-xr-x  3 mingiyomi staff 96 11월 1 14:56 .
+drwxr-xr-x@ 3 mingiyomi staff 96 11월 1 14:53 ..
+-rw-r--r--  1 mingiyomi staff 26 11월 1 14:54 memo.txt
 ~~~
 
 복사한 파일의 이름을 바꾸고 삭제한 뒤 memo.txt만 남은 것을 확인했다.
@@ -49,13 +58,23 @@ rm practice/memo-backup.txt                  # 파일 삭제
 
 ## 4. 권한 변경
 
-~~~bash
-ls -l practice/memo.txt          # 파일 권한 확인
-chmod 600 practice/memo.txt      # 소유자만 읽기·쓰기
-chmod 644 practice/memo.txt      # 소유자 읽기·쓰기, 나머지 읽기
-ls -ld practice                 # 폴더 자체의 권한 확인
-chmod 700 practice              # 소유자만 폴더 사용
-chmod 755 practice              # 소유자 전체 권한, 나머지 읽기·진입
+~~~text
+$ ls -l practice/memo.txt          # 파일 권한 확인
+-rw-r--r-- 1 mingiyomi staff 26 11월 1 14:54 practice/memo.txt
+$ chmod 600 practice/memo.txt      # 소유자만 읽기·쓰기
+$ ls -l practice/memo.txt
+-rw------- 1 mingiyomi staff 26 11월 1 14:54 practice/memo.txt
+$ chmod 644 practice/memo.txt      # 소유자 읽기·쓰기, 나머지 읽기
+$ ls -l practice/memo.txt
+-rw-r--r-- 1 mingiyomi staff 26 11월 1 14:54 practice/memo.txt
+$ ls -ld practice                 # 폴더 자체의 권한 확인
+drwxr-xr-x 3 mingiyomi staff 96 11월 1 14:56 practice
+$ chmod 700 practice              # 소유자만 폴더 사용
+$ ls -ld practice
+drwx------ 3 mingiyomi staff 96 11월 1 14:56 practice
+$ chmod 755 practice              # 소유자 전체 권한, 나머지 읽기·진입
+$ ls -ld practice
+drwxr-xr-x 3 mingiyomi staff 96 11월 1 14:56 practice
 ~~~
 
 각 변경 뒤 ls로 확인했다. 파일은 644→600→644, 폴더는 755→700→755로 바뀌었다. r=읽기(4), w=쓰기(2), x=실행·폴더 진입(1)을 더해 소유자·그룹·그 외 사용자 순서로 적는다.
@@ -66,14 +85,27 @@ chmod 755 practice              # 소유자 전체 권한, 나머지 읽기·진
 
 Docker Desktop을 설치하고 켜둔 상태에서 명령어를 실행했다.
 
-~~~bash
-docker --version                         # Docker 버전 확인
-docker info                              # 엔진 동작과 환경 확인
-docker run --name codyssey-hello hello-world  # 이미지 다운로드 및 컨테이너 실행
-docker images                            # 이미지 목록
-docker ps                                # 실행 중인 컨테이너
-docker ps -a                             # 종료된 컨테이너까지 확인
-docker logs codyssey-hello               # 컨테이너 출력 확인
+~~~text
+$ docker --version                         # Docker 버전 확인
+Docker version 29.9.2, build a82e528
+$ docker info                              # 엔진 동작과 환경 확인
+Server Version: 29.9.2
+Operating System: Docker Desktop
+OSType: linux
+Architecture: aarch64
+$ docker run --name codyssey-hello hello-world  # 이미지 다운로드 및 컨테이너 실행
+Status: Downloaded newer image for hello-world:latest
+Hello from Docker!
+$ docker images                            # 이미지 목록
+IMAGE                ID             DISK USAGE   CONTENT SIZE   EXTRA
+hello-world:latest   c567b231f656   22.6kB       10.3kB         U
+$ docker ps                                # 실행 중인 컨테이너
+CONTAINER ID   IMAGE   COMMAND   CREATED   STATUS   PORTS   NAMES
+$ docker ps -a                             # 종료된 컨테이너까지 확인
+CONTAINER ID   IMAGE         COMMAND    CREATED              STATUS                          PORTS   NAMES
+15b2cf3ac944   hello-world   "/hello"   About a minute ago   Exited (0) About a minute ago           codyssey-hello
+$ docker logs codyssey-hello               # 컨테이너 출력 확인
+Hello from Docker!
 ~~~
 
 hello-world에서 “Hello from Docker!”가 나왔다. 실행 후 종료되어 ps에는 없고 ps -a에는 Exited (0)으로 남았다.
@@ -82,25 +114,44 @@ hello-world에서 “Hello from Docker!”가 나왔다. 실행 후 종료되어
 
 Ubuntu에서 사용한 명령어다.
 
-~~~bash
-docker run -it --name codyssey-ubuntu ubuntu:24.04 bash  # Ubuntu 내부 진입
+~~~text
+$ docker run -it --name codyssey-ubuntu ubuntu:24.04 bash  # Ubuntu 내부 진입
 # 컨테이너 안에서 실행
-pwd
-ls
-echo "Hello from Ubuntu container"
-cat /etc/os-release                      # Ubuntu 버전 확인
-exit                                     # 주 프로그램 bash 종료
+root@3d676117715a:/# pwd
+/
+root@3d676117715a:/# ls
+bin boot dev etc home lib media mnt opt proc root run sbin srv sys tmp usr var
+root@3d676117715a:/# echo "Hello from Ubuntu container"
+Hello from Ubuntu container
+root@3d676117715a:/# cat /etc/os-release  # Ubuntu 버전 확인
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+VERSION_ID="24.04"
+root@3d676117715a:/# exit                  # 주 프로그램 bash 종료
+exit
 # 맥 터미널에서 실행
-docker start codyssey-ubuntu              # 기존 컨테이너 재시작
-docker exec -it codyssey-ubuntu bash       # 실행 중인 컨테이너에 추가 bash 실행
+$ docker ps -a
+CONTAINER ID   IMAGE          COMMAND   CREATED         STATUS                      PORTS   NAMES
+3d676117715a   ubuntu:24.04   "bash"    2 minutes ago   Exited (0) 8 seconds ago            codyssey-ubuntu
+$ docker start codyssey-ubuntu            # 기존 컨테이너 재시작
+codyssey-ubuntu
+$ docker exec -it codyssey-ubuntu bash       # 실행 중인 컨테이너에 추가 bash 실행
 # 컨테이너 안에서 실행
-echo "Connected using docker exec"
-exit                                     # 추가 bash에서 나오기
+root@3d676117715a:/# echo "Connected using docker exec"
+Connected using docker exec
+root@3d676117715a:/# exit                  # 추가 bash에서 나오기
+exit
 # 맥 터미널에서 실행
-docker ps                                # 계속 실행 중인지 확인
-docker stats --no-stream codyssey-ubuntu  # CPU·메모리 사용량 확인
-docker stop codyssey-ubuntu               # 컨테이너 중지
-docker ps -a                             # 중지 상태 확인
+$ docker ps                              # 계속 실행 중인지 확인
+CONTAINER ID   IMAGE          COMMAND   CREATED         STATUS          PORTS   NAMES
+3d676117715a   ubuntu:24.04   "bash"    4 minutes ago   Up 26 seconds           codyssey-ubuntu
+$ docker stats --no-stream codyssey-ubuntu  # CPU·메모리 사용량 확인
+CONTAINER ID   NAME              CPU %   MEM USAGE / LIMIT   MEM %   NET I/O       BLOCK I/O   PIDS
+3d676117715a   codyssey-ubuntu   0.00%   1.992MiB / 7.748GiB  0.03%   1.17kB / 126B 0B / 0B     1
+$ docker stop codyssey-ubuntu             # 컨테이너 중지
+codyssey-ubuntu
+$ docker ps -a                           # 중지 상태 확인
+CONTAINER ID   IMAGE          COMMAND   CREATED          STATUS                       PORTS   NAMES
+3d676117715a   ubuntu:24.04   "bash"    13 minutes ago   Exited (137) 5 seconds ago           codyssey-ubuntu
 ~~~
 
 처음 bash를 exit했을 때는 컨테이너가 종료됐다. exec로 들어갔다 나왔을 때는 컨테이너가 계속 실행됐다. CPU와 메모리 사용량을 확인하고 컨테이너를 중지했다.
@@ -117,10 +168,20 @@ COPY site/ /usr/share/nginx/html/
 EXPOSE 80
 ~~~
 
-~~~bash
-docker build -t codyssey-web:1.0 .        # 현재 폴더의 Dockerfile로 이미지 빌드
-docker run -d --name codyssey-web -p 8080:80 codyssey-web:1.0  # 백그라운드 실행
-curl -i http://localhost:8080             # HTTP 응답 확인
+~~~text
+$ docker build -t codyssey-web:1.0 .      # 현재 폴더의 Dockerfile로 이미지 빌드
+[+] Building 4.9s (8/8) FINISHED
+=> [2/2] COPY site/ /usr/share/nginx/html/
+=> => naming to docker.io/library/codyssey-web:1.0
+$ docker run -d --name codyssey-web -p 8080:80 codyssey-web:1.0  # 백그라운드 실행
+5a27e8f4c659a4142e45cd5a0883ae38d7100421446f0f6a5957b6672b8aeb4f
+$ curl -i http://localhost:8080           # HTTP 응답 확인
+HTTP/1.1 200 OK
+Server: nginx/1.31.8
+Content-Type: text/html
+...
+<h1>대전 코디세이 1기 개발 작업실</h1>
+<p>이번 목표: 직접 실행하고, 확인하고, 기록하기!</p>
 ~~~
 
 이미지 빌드와 컨테이너 실행이 완료됐고 200 OK 응답이 나왔다. 8080:80은 맥의 8080번 포트를 컨테이너의 80번 포트에 연결한다.
@@ -133,12 +194,22 @@ curl -i http://localhost:8080             # HTTP 응답 확인
 
 맥의 site 폴더를 컨테이너에 연결하고 HTML을 수정했다.
 
-~~~bash
-docker run -d --name codyssey-web-bind -p 8081:80 -v "$(pwd)/site:/usr/share/nginx/html:ro" codyssey-web:1.0
-curl -i http://localhost:8081    # 수정 전 응답 확인
-nano site/index.html            # 맥의 HTML 수정
-curl -i http://localhost:8081    # 수정 후 응답 확인
-curl -i http://localhost:8080    # 이미지에 복사한 원래 파일과 비교
+~~~text
+$ docker run -d --name codyssey-web-bind -p 8081:80 -v "$(pwd)/site:/usr/share/nginx/html:ro" codyssey-web:1.0
+abf2aaa7f73402900136b759ea50a889486e12e420a02b18c5b77cd1747cbe0f
+$ curl -i http://localhost:8081  # 수정 전 응답 확인
+HTTP/1.1 200 OK
+...
+<p>이번 목표: 직접 실행하고, 확인하고, 기록하기!</p>
+$ nano site/index.html          # 맥의 HTML 수정
+$ curl -i http://localhost:8081  # 수정 후 응답 확인
+HTTP/1.1 200 OK
+...
+<p>바인드 마운트 실습: 파일 수정이 바로 반영됩니다.</p>
+$ curl -i http://localhost:8080  # 이미지에 복사한 원래 파일과 비교
+HTTP/1.1 200 OK
+...
+<p>이번 목표: 직접 실행하고, 확인하고, 기록하기!</p>
 ~~~
 
 재빌드나 재시작 없이 8081의 문장이 바뀌었고 8080은 원래 문장이 유지됐다.
@@ -149,16 +220,25 @@ curl -i http://localhost:8080    # 이미지에 복사한 원래 파일과 비�
 
 ## 8. 볼륨
 
-~~~bash
-docker volume create codyssey-data       # 볼륨 생성
-docker run -d --name codyssey-volume-before -v codyssey-data:/data ubuntu:24.04 sleep infinity  # 볼륨 연결
-docker exec codyssey-volume-before bash -c 'echo "Codyssey volume persistence test" > /data/note.txt'  # 파일 저장
-docker exec codyssey-volume-before cat /data/note.txt  # 삭제 전 내용 확인
-docker rm -f codyssey-volume-before       # 컨테이너 삭제
-docker ps -a                             # 이전 컨테이너가 사라졌는지 확인
-docker volume ls                         # 볼륨이 남아 있는지 확인
-docker run -d --name codyssey-volume-after -v codyssey-data:/data ubuntu:24.04 sleep infinity  # 새 컨테이너에 같은 볼륨 연결
-docker exec codyssey-volume-after cat /data/note.txt   # 삭제 후 내용 확인
+~~~text
+$ docker volume create codyssey-data     # 볼륨 생성
+codyssey-data
+$ docker run -d --name codyssey-volume-before -v codyssey-data:/data ubuntu:24.04 sleep infinity  # 볼륨 연결
+5963ddc061ba972801304c2db6d49192b4f228feb2424fcabdd28b766cb3d4be
+$ docker exec codyssey-volume-before bash -c 'echo "Codyssey volume persistence test" > /data/note.txt'  # 파일 저장
+$ docker exec codyssey-volume-before cat /data/note.txt  # 삭제 전 내용 확인
+Codyssey volume persistence test
+$ docker rm -f codyssey-volume-before     # 컨테이너 삭제
+codyssey-volume-before
+$ docker ps -a                           # 이전 컨테이너가 사라졌는지 확인
+...
+$ docker volume ls                       # 볼륨이 남아 있는지 확인
+DRIVER   VOLUME NAME
+local    codyssey-data
+$ docker run -d --name codyssey-volume-after -v codyssey-data:/data ubuntu:24.04 sleep infinity  # 새 컨테이너에 같은 볼륨 연결
+56313dd19f83cb98b2afd798eb9ff3582e92ccc5220dd0d6efba2ff89538c42d
+$ docker exec codyssey-volume-after cat /data/note.txt  # 삭제 후 내용 확인
+Codyssey volume persistence test
 ~~~
 
 삭제 전후 모두 “Codyssey volume persistence test”가 나왔다. 컨테이너를 지워도 볼륨에 파일이 남았다.
@@ -167,18 +247,26 @@ docker exec codyssey-volume-after cat /data/note.txt   # 삭제 후 내용 확�
 
 ## 9. Git 설정과 GitHub·VSCode 연동
 
-~~~bash
-git config --global init.defaultBranch main  # 기본 브랜치 설정
-git config --global --get init.defaultBranch # 설정값 확인
-git init                                    # 로컬 저장소 생성
-git config user.name "양민기"                 # 작성자 이름 설정
-git config user.email "didthq100@gmail.com"   # 작성자 이메일 설정
-git config --local --list                    # 저장소 설정 확인
-git add Dockerfile site practice .gitignore # 커밋에 넣을 파일 선택
-git commit -m "터미널 실습과 Docker 웹 서버 추가"  # 변경 이력 저장
-git remote add origin https://github.com/didthq100-arch/codyssey-workstation.git # 원격 저장소 연결
-git remote -v                               # 연결 주소 확인
-git push -u origin main                     # GitHub에 업로드
+~~~text
+$ git config --global init.defaultBranch main  # 기본 브랜치 설정
+$ git config --global --get init.defaultBranch # 설정값 확인
+main
+$ git init                                    # 로컬 저장소 생성
+$ git config user.name "양민기"                 # 작성자 이름 설정
+$ git config user.email "didthq100@gmail.com"   # 작성자 이메일 설정
+$ git config --local --list                    # 저장소 설정 확인
+user.name=양민기
+user.email=didthq100@gmail.com
+$ git add Dockerfile site practice .gitignore # 커밋에 넣을 파일 선택
+$ git commit -m "터미널 실습과 Docker 웹 서버 추가"  # 변경 이력 저장
+[main (root-commit) 9932f75] 터미널 실습과 Docker 웹 서버 추가
+4 files changed, 18 insertions(+)
+$ git remote add origin https://github.com/didthq100-arch/codyssey-workstation.git # 원격 저장소 연결
+$ git remote -v                               # 연결 주소 확인
+$ git push -u origin main                     # GitHub에 업로드
+To https://github.com/didthq100-arch/codyssey-workstation.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.
 ~~~
 
 Git으로 내 컴퓨터에 변경 이력을 저장하고, VSCode 터미널에서 GitHub에 업로드했다.
